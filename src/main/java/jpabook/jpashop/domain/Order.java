@@ -25,7 +25,7 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -34,7 +34,7 @@ public class Order {
 
     private LocalDateTime orderDate; // 주문시간
 
-    private Orderstatus staus; // 주문상태[order, cancel]
+    private OrderStatus status; // 주문상태[order, cancel]
 
     /*연관 관게 Method*/
     public void setMember(Member member){
@@ -60,7 +60,7 @@ public class Order {
         for(OrderItem orderItem : orderItems){
             order.addOrderItem(orderItem);
         }
-        order.setStaus(Orderstatus.ORDER);
+        order.setStatus(OrderStatus.ORDER);
         order.setOrderDate(LocalDateTime.now());
         return order;
     }
@@ -73,7 +73,7 @@ public class Order {
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
         }
 
-        this.setStaus(Orderstatus.CANCEL);
+        this.setStatus(OrderStatus.CANCEL);
         for(OrderItem orderItem : orderItems){
             orderItem.cancel();
         }
