@@ -36,7 +36,7 @@ public class OrderController {
         return "order/orderForm";
     }
 
-    @PostMapping("/order")
+    @PostMapping("/ordder")
     public String order(@RequestParam("memberId") Long memberId,
                         @RequestParam("itemId") Long itemId,
                         @RequestParam("count") int count) {
